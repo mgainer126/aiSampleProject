@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function PostGenerator() {
+export default function PostGeneratoCopy(props) {
+  console.log(props.response);
   const [prompt, setPrompt] = useState("");
   const [reply, setReply] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (props.response) setPrompt(props.response);
+  }, [props.response]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -19,7 +24,9 @@ export default function PostGenerator() {
       const res = await fetch("http://localhost:4000/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: prompt }),
+        body: JSON.stringify({
+          message: `Create message posts for my LinkedIn profile for the following recommendations:\n\n${prompt}`,
+        }),
       });
 
       if (!res.ok) {
@@ -37,40 +44,38 @@ export default function PostGenerator() {
   }
 
   return (
-    <div className="component">
-      <h2>Post Generator</h2>
+    <div className="app-card">
+      <h2 className="app-card-title">Post Generator</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form className="app-form" onSubmit={handleSubmit}>
         <textarea
-          rows={4}
+          rows={6}
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          className="component-textarea"
-          placeholder="Ask me anything..."
+          className="app-textarea"
+          placeholder="Generate LinkedIn posts based on the topics provided..."
         />
 
         <button
           type="submit"
           disabled={loading || !prompt.trim()}
-          className="component-button"
+          className="app-button"
         >
-          {loading ? "Thinking..." : "Send"}
+          {loading ? "Thinking..." : "Generate Posts"}
         </button>
       </form>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="app-error">{error}</p>}
 
       {reply && (
-        <div
-          style={{
-            marginTop: 20,
-            background: "#f7f7f7",
-            padding: 15,
-            borderRadius: 8,
-          }}
-        >
+        <div className="app-reply">
           <strong>Response:</strong>
-          <p>{reply}</p>
+          {reply.split("\n").map((line, i) => (
+            <span key={i}>
+              {line}
+              <br />
+            </span>
+          ))}
         </div>
       )}
     </div>

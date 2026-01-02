@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function PostCommentRepsonder() {
+export default function PostCommentResponder() {
   const [prompt, setPrompt] = useState("");
   const [reply, setReply] = useState("");
   const [loading, setLoading] = useState(false);
@@ -37,40 +37,38 @@ export default function PostCommentRepsonder() {
   }
 
   return (
-    <div className="component">
-      <h2>Post Comment Repsonder</h2>
+    <div className="app-card">
+      <h2 className="app-card-title">LinkedIn Poster</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form className="app-form" onSubmit={handleSubmit}>
         <textarea
-          rows={4}
+          rows={6}
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          className="component-textarea"
-          placeholder="Ask me anything..."
+          className="app-textarea"
+          placeholder="Posted it to LinkedIn..."
         />
 
         <button
           type="submit"
           disabled={loading || !prompt.trim()}
-          className="component-button"
+          className="app-button"
         >
           {loading ? "Thinking..." : "Send"}
         </button>
       </form>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="app-error">{error}</p>}
 
       {reply && (
-        <div
-          style={{
-            marginTop: 20,
-            background: "#f7f7f7",
-            padding: 15,
-            borderRadius: 8,
-          }}
-        >
+        <div className="app-reply">
           <strong>Response:</strong>
-          <p>{reply}</p>
+          {reply.split("\n").map((line, i) => (
+            <span key={i}>
+              {line}
+              <br />
+            </span>
+          ))}
         </div>
       )}
     </div>

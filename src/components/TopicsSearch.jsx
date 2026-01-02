@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PostGeneratorCopy from "./PostGenerator";
 
 export default function TopicsSearch() {
   const [prompt, setPrompt] = useState("");
@@ -28,6 +29,8 @@ export default function TopicsSearch() {
       }
 
       const data = await res.json();
+
+      console.log(data);
       setReply(data.reply || "(No reply returned)");
     } catch (err) {
       setError(err.message || "Something went wrong.");
@@ -37,42 +40,42 @@ export default function TopicsSearch() {
   }
 
   return (
-    <div className="component">
-      <h2>Topics Search</h2>
+    <div className="app-card">
+      <h2 className="app-card-title">Topics Search</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form className="app-form" onSubmit={handleSubmit}>
         <textarea
-          rows={4}
+          rows={6}
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          className="component-textarea"
+          className="app-textarea"
           placeholder="Ask me anything..."
         />
 
         <button
           type="submit"
           disabled={loading || !prompt.trim()}
-          className="component-button"
+          className="app-button"
         >
           {loading ? "Thinking..." : "Send"}
         </button>
       </form>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="app-error">{error}</p>}
 
       {reply && (
-        <div
-          style={{
-            marginTop: 20,
-            background: "#f7f7f7",
-            padding: 15,
-            borderRadius: 8,
-          }}
-        >
+        <div className="app-reply">
           <strong>Response:</strong>
-          <p>{reply}</p>
+          {reply.split("\n").map((line, i) => (
+            <span key={i}>
+              {line}
+              <br />
+            </span>
+          ))}
         </div>
       )}
+
+      <PostGeneratorCopy response={reply} />
     </div>
   );
 }

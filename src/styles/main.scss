@@ -1,19 +1,156 @@
-.component {
-  max-width: 600px;
-  margin: 40px auto;
-  font-family: "Arial";
-  &-textarea {
-    width: 100%;
-    padding: 10px;
+$app-bg: #060606;
+$app-grid: rgba(255, 255, 255, 0.04);
+$app-card: #0d0d0f;
+$app-card-border: rgba(255, 255, 255, 0.06);
+$app-text: #e8e8e8;
+$app-muted: #9a9a9a;
+$app-primary: #6f8cff;
+$app-primary-hover: #8fa2ff;
+
+.app-card-subtitle {
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: $app-muted;
+  line-height: 1.75rem;
+}
+
+body {
+  background: $app-bg;
+  color: $app-text;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial,
+    sans-serif;
+}
+
+/* ====== Page Container ====== */
+
+.app-container {
+  min-height: 100vh;
+  padding: 40px;
+  background-image: linear-gradient(
+      0deg,
+      transparent 24%,
+      $app-grid 25%,
+      $app-grid 26%,
+      transparent 27%,
+      transparent 74%,
+      $app-grid 75%,
+      $app-grid 76%,
+      transparent 77%,
+      transparent
+    ),
+    linear-gradient(
+      90deg,
+      transparent 24%,
+      $app-grid 25%,
+      $app-grid 26%,
+      transparent 27%,
+      transparent 74%,
+      $app-grid 75%,
+      $app-grid 76%,
+      transparent 77%,
+      transparent
+    );
+  background-size: 40px 40px;
+}
+
+/* ====== Card ====== */
+
+.app-card {
+  background: $app-card;
+  border: 1px solid $app-card-border;
+  border-radius: 16px;
+  padding: 28px;
+  max-width: 900px;
+  margin: 0 auto 30px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
   }
-  &-button {
-    margin-top: 10px;
-    padding: 8px 16px;
+}
+
+.app-card-title {
+  margin-bottom: 16px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* ====== Form ====== */
+
+.app-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.app-textarea {
+  background: #0b0b0d;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: $app-text;
+  padding: 14px;
+  border-radius: 10px;
+  resize: none;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &::placeholder {
+    color: $app-muted;
   }
-  &-reply {
-    margin-top: 20px;
-    background: "#f7f7f7";
-    padding: 15;
-    border-radius: 8;
+
+  &:focus {
+    outline: none;
+    border-color: $app-primary;
+    box-shadow: 0 0 0 2px rgba($app-primary, 0.2);
   }
+}
+
+/* ====== Buttons ====== */
+
+.app-button {
+  align-self: flex-start;
+  background: $app-primary;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: $app-primary-hover;
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* ====== Reply Block ====== */
+
+.app-reply {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #101013;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  line-height: 1.6;
+
+  strong {
+    display: block;
+    margin-bottom: 6px;
+  }
+}
+
+/* ====== Errors ====== */
+
+.app-error {
+  color: #ff6b6b;
+  margin-top: 6px;
 }
