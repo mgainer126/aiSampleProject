@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function PostGeneratoCopy(props) {
+export default function PostGenerato(props) {
   console.log(props.response);
   const [prompt, setPrompt] = useState("");
   const [reply, setReply] = useState("");

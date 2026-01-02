@@ -1,5 +1,5 @@
 import { useState } from "react";
-import PostGeneratorCopy from "./PostGenerator";
+import PostGenerator from "./PostGenerator";
 
 export default function TopicsSearch() {
   const [prompt, setPrompt] = useState("");
@@ -49,7 +49,7 @@ export default function TopicsSearch() {
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           className="app-textarea"
-          placeholder="Ask me anything..."
+          placeholder="Input a subject for talking points..."
         />
 
         <button
@@ -75,7 +75,7 @@ export default function TopicsSearch() {
         </div>
       )}
 
-      <PostGeneratorCopy response={reply} />
+      <PostGenerator response={reply} />
     </div>
   );
 }

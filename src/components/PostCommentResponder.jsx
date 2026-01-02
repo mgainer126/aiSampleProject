@@ -1,38 +1,47 @@
 import { useState } from "react";
 
-export default function PostCommentResponder() {
-  const [prompt, setPrompt] = useState("");
-  const [reply, setReply] = useState("");
+export default function LinkedInPoster() {
+  const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [posting, setPosting] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!prompt.trim()) return;
+    if (!text.trim()) return;
+
+    const ok = window.confirm(
+      "This will publish the post to your LinkedIn account. Continue?"
+    );
+    if (!ok) return;
 
     setLoading(true);
+    setPosting(true);
     setError("");
-    setReply("");
+    setSuccess("");
 
     try {
-      const res = await fetch("http://localhost:4000/api/ask", {
+      const res = await fetch("http://localhost:4000/api/linkedin-post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: prompt }),
+        body: JSON.stringify({ text }),
       });
 
-      if (!res.ok) {
-        const msg = await res.text();
-        throw new Error(msg || "Request failed");
+      if (res.status === 401) {
+        throw new Error("Please connect your LinkedIn account first.");
       }
 
-      const data = await res.json();
-      setReply(data.reply || "(No reply returned)");
+      if (!res.ok) throw new Error(await res.text());
+
+      setSuccess("Successfully posted to LinkedIn 🎉");
+      setText(""); // clear input after posting
     } catch (err) {
       setError(err.message || "Something went wrong.");
     } finally {
       setLoading(false);
+      setPosting(false);
     }
   }
 
@@ -40,37 +49,37 @@ export default function PostCommentResponder() {
     <div className="app-card">
       <h2 className="app-card-title">LinkedIn Poster</h2>
 
+      {/* Connect Button */}
+      <div style={{ marginBottom: "10px" }}>
+        <a
+          href="http://localhost:4000/auth/linkedin"
+          className="app-button secondary"
+        >
+          Connect LinkedIn
+        </a>
+      </div>
+
       <form className="app-form" onSubmit={handleSubmit}>
         <textarea
           rows={6}
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
+          disabled={posting}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           className="app-textarea"
-          placeholder="Posted it to LinkedIn..."
+          placeholder="Write your LinkedIn post here..."
         />
 
         <button
           type="submit"
-          disabled={loading || !prompt.trim()}
+          disabled={posting || !text.trim()}
           className="app-button"
         >
-          {loading ? "Thinking..." : "Send"}
+          {posting ? "Posting to LinkedIn..." : "Post to LinkedIn"}
         </button>
       </form>
 
       {error && <p className="app-error">{error}</p>}
-
-      {reply && (
-        <div className="app-reply">
-          <strong>Response:</strong>
-          {reply.split("\n").map((line, i) => (
-            <span key={i}>
-              {line}
-              <br />
-            </span>
-          ))}
-        </div>
-      )}
+      {success && <p className="app-success">{success}</p>}
     </div>
   );
 }
