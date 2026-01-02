@@ -1,9 +1,9 @@
-import Chat from "./pages/Chat";
+import Main from "./pages/Main";
 
 function App() {
   return (
     <>
-      <Chat />
+      <Main />
     </>
   );
 }

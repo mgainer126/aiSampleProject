@@ -1,0 +1,19 @@
+.component {
+  max-width: 600px;
+  margin: 40px auto;
+  font-family: "Arial";
+  &-textarea {
+    width: 100%;
+    padding: 10px;
+  }
+  &-button {
+    margin-top: 10px;
+    padding: 8px 16px;
+  }
+  &-reply {
+    margin-top: 20px;
+    background: "#f7f7f7";
+    padding: 15;
+    border-radius: 8;
+  }
+}

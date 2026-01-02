@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Chat() {
+export default function PostCommentRepsonder() {
   const [prompt, setPrompt] = useState("");
   const [reply, setReply] = useState("");
   const [loading, setLoading] = useState(false);
@@ -37,22 +37,22 @@ export default function Chat() {
   }
 
   return (
-    <div style={{ maxWidth: 600, margin: "40px auto", fontFamily: "Arial" }}>
-      <h2>Ask GPT</h2>
+    <div className="component">
+      <h2>Post Comment Repsonder</h2>
 
       <form onSubmit={handleSubmit}>
         <textarea
           rows={4}
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          style={{ width: "100%", padding: 10 }}
+          className="component-textarea"
           placeholder="Ask me anything..."
         />
 
         <button
           type="submit"
           disabled={loading || !prompt.trim()}
-          style={{ marginTop: 10, padding: "8px 16px" }}
+          className="component-button"
         >
           {loading ? "Thinking..." : "Send"}
         </button>
