@@ -26,6 +26,7 @@ export default function LinkedInPoster() {
       const res = await fetch("http://localhost:4000/api/linkedin-post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // 🔥 send session cookie
         body: JSON.stringify({ text }),
       });
 
@@ -36,7 +37,7 @@ export default function LinkedInPoster() {
       if (!res.ok) throw new Error(await res.text());
 
       setSuccess("Successfully posted to LinkedIn 🎉");
-      setText(""); // clear input after posting
+      setText("");
     } catch (err) {
       setError(err.message || "Something went wrong.");
     } finally {
@@ -44,6 +45,8 @@ export default function LinkedInPoster() {
       setPosting(false);
     }
   }
+
+  console.log(loading);
 
   return (
     <div className="app-card">
